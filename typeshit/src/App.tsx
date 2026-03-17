@@ -86,21 +86,23 @@ function createRecipe(
   };
 }
 
+const MonteCristoIngredients: Array<Ingredient> = [
+  createIngredient({ amount: 3, title: "slices Brioche Bread" }),
+  createIngredient({ amount: 1, title: "tbsp Mayonnaise" }),
+  createIngredient({ amount: 1, title: "tsp Dijon Mustard" }),
+  createIngredient({ amount: 3, title: "tbsp Raspberry Jam" }),
+  createIngredient({ amount: 2, title: "slices Sliced Swiss Cheese 2 oz" }),
+  createIngredient({ amount: 2, title: "slices Sliced Deli Turkey 2 oz" }),
+  createIngredient({ amount: 2, title: "slices Sliced Deli Ham 2 oz" }),
+  createIngredient({ amount: 1, title: "Large Egg(s)" }),
+  createIngredient({ amount: 1, title: "tbsp Milk" }),
+  createIngredient({ amount: 2, title: "tsp Butter" }),
+  createIngredient({ title: "Powdered Sugar garnish" }),
+];
+
 const MonteCristo: Recipe = createRecipe(
   "Monte Cristo",
-  [
-    createIngredient({ amount: 3, title: "slices Brioche Bread" }),
-    createIngredient({ amount: 1, title: "tbsp Mayonnaise" }),
-    createIngredient({ amount: 1, title: "tsp Dijon Mustard" }),
-    createIngredient({ amount: 3, title: "tbsp Raspberry Jam" }),
-    createIngredient({ amount: 2, title: "slices Sliced Swiss Cheese 2 oz" }),
-    createIngredient({ amount: 2, title: "slices Sliced Deli Turkey 2 oz" }),
-    createIngredient({ amount: 2, title: "slices Sliced Deli Ham 2 oz" }),
-    createIngredient({ amount: 1, title: "Large Egg(s)" }),
-    createIngredient({ amount: 1, title: "tbsp Milk" }),
-    createIngredient({ amount: 2, title: "tsp Butter" }),
-    createIngredient({ title: "Powdered Sugar garnish" }),
-  ],
+  MonteCristoIngredients,
   [
     createStep({
       ingredients: new Set([
