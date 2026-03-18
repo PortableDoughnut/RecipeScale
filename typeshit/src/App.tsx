@@ -86,6 +86,27 @@ function createRecipe(
   };
 }
 
+function scaleRecipe(recipe: Recipe, mult: number): Recipe {
+  return {
+    ...recipe, // preserves other Recipe properties (id, author, etc.)
+    ingredients: recipe.ingredients.map((ingredient) => ({
+      ...ingredient,
+      amount: ingredient.amount ? ingredient.amount * mult : undefined,
+    })),
+    steps: recipe.steps.map((step) => ({
+      ...step,
+      ingredients: step.ingredients
+        ? new Set(
+            Array.from(step.ingredients).map((ingredient) => ({
+              ...ingredient,
+              amount: ingredient.amount ? ingredient.amount * mult : undefined,
+            })),
+          )
+        : undefined,
+    })),
+  };
+}
+
 const MonteCristoIngredients: Array<Ingredient> = [
   createIngredient({ amount: 3, title: "slices Brioche Bread" }),
   createIngredient({ amount: 1, title: "tbsp Mayonnaise" }),
@@ -100,63 +121,63 @@ const MonteCristoIngredients: Array<Ingredient> = [
   createIngredient({ title: "Powdered Sugar garnish" }),
 ];
 
+const MonteCristoSteps: Array<Step> = [
+  createStep({
+    ingredients: new Set([
+      MonteCristoIngredients[1],
+      MonteCristoIngredients[2],
+      MonteCristoIngredients[3],
+      MonteCristoIngredients[0],
+    ]),
+    use: "Spread mayonnaise on a single side of two slices of brioche bread. On the remaining slice of bread (which will be the middle of your sandwich) spread Dijon mustard on one side and raspberry jam on the other.",
+  }),
+  createStep({
+    ingredients: new Set([
+      createIngredient({
+        amount: 2,
+        title: "slices of mayo slathered bread",
+      }),
+      MonteCristoIngredients[4],
+      MonteCristoIngredients[5],
+      MonteCristoIngredients[6],
+      createIngredient({
+        amount: 1,
+        title: "slice(s) of dijon and jam slathered bread",
+      }),
+    ]),
+    use: "Make the sandwiches by layering a slice of mayo slathered bread, cheese, ham, the dijon and raspberry slice of bread, followed by turkey, cheese, and the final slice of mayo slathered bread.",
+  }),
+  createStep({
+    use: "Press down the sandwich to help flatten the thick slices of bread with a grill press or skillet.",
+  }),
+  createStep({
+    ingredients: new Set([
+      createIngredient({ amount: 1, title: "sandwhich" }),
+      MonteCristoIngredients[7],
+      MonteCristoIngredients[8],
+    ]),
+    use: "In a shallow dish, whisk together the eggs and the milk. Dip sandwich into the egg mixture, until some of the liquid absorbs into the bread, but it isn’t falling apart. ",
+  }),
+  createStep({
+    ingredients: new Set([
+      MonteCristoIngredients[9],
+      createIngredient({ amount: 1, title: "sandwhich" }),
+    ]),
+    use: "Put the butter over medium heat in a large nonstick skillet. Cook 3-4 minutes per side, until sandwich is golden and cheese is melted. Transfer to paper towels to drain.",
+  }),
+  createStep({
+    ingredients: new Set([
+      MonteCristoIngredients[10],
+      createIngredient({ amount: 1, title: "sandwhich" }),
+    ]),
+    use: "Dust sandwich with powdered sugar, slice in half, and serve with leftover jam on the side.",
+  }),
+];
+
 const MonteCristo: Recipe = createRecipe(
   "Monte Cristo",
   MonteCristoIngredients,
-  [
-    createStep({
-      ingredients: new Set([
-        createIngredient({ amount: 1, title: "tbsp Mayonnaise" }),
-        createIngredient({ amount: 1, title: "tsp Dijon Mustard" }),
-        createIngredient({ amount: 3, title: "tbsp Raspberry Jam" }),
-        createIngredient({ amount: 3, title: "slices Brioche Bread" }),
-      ]),
-      use: "Spread mayonnaise on a single side of two slices of brioche bread. On the remaining slice of bread (which will be the middle of your sandwich) spread Dijon mustard on one side and raspberry jam on the other.",
-    }),
-    createStep({
-      ingredients: new Set([
-        createIngredient({
-          amount: 2,
-          title: "slices of mayo slathered bread",
-        }),
-        createIngredient({
-          amount: 2,
-          title: "slices Sliced Swiss Cheese 2 oz",
-        }),
-        createIngredient({ amount: 2, title: "slices Sliced Deli Ham 2 oz" }),
-        createIngredient({
-          amount: 1,
-          title: "slice(s) of dijon and jam slathered bread",
-        }),
-      ]),
-      use: "Make the sandwiches by layering a slice of mayo slathered bread, cheese, ham, the dijon and raspberry slice of bread, followed by turkey, cheese, and the final slice of mayo slathered bread.",
-    }),
-    createStep({
-      use: "Press down the sandwich to help flatten the thick slices of bread with a grill press or skillet.",
-    }),
-    createStep({
-      ingredients: new Set([
-        createIngredient({ amount: 1, title: "sandwhich" }),
-        createIngredient({ amount: 1, title: "Large Egg(s)" }),
-        createIngredient({ amount: 1, title: "tbsp Milk" }),
-      ]),
-      use: "In a shallow dish, whisk together the eggs and the milk. Dip sandwich into the egg mixture, until some of the liquid absorbs into the bread, but it isn’t falling apart. ",
-    }),
-    createStep({
-      ingredients: new Set([
-        createIngredient({ amount: 2, title: "tsp Butter" }),
-        createIngredient({ amount: 1, title: "sandwhich" }),
-      ]),
-      use: "Put the butter over medium heat in a large nonstick skillet. Cook 3-4 minutes per side, until sandwich is golden and cheese is melted. Transfer to paper towels to drain.",
-    }),
-    createStep({
-      ingredients: new Set([
-        createIngredient({ title: "Powdered Sugar garnish" }),
-        createIngredient({ amount: 1, title: "sandwhich" }),
-      ]),
-      use: "Dust sandwich with powdered sugar, slice in half, and serve with leftover jam on the side.",
-    }),
-  ],
+  MonteCristoSteps,
 );
 
 const App = () => {
